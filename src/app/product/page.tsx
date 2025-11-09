@@ -57,15 +57,15 @@ export default function ProductPage() {
       link: 'https://assistant.kynex.dev/',
       external: true,
     },
-    {
-      icon: TrendingUp,
-      title: 'Pricing',
-      description: 'Flexible pricing plans designed for businesses of all sizes. From startups to enterprises, find the perfect plan that fits your budget and requirements.',
-      gradient: 'from-amber-500 to-orange-500',
-      bgGradient: 'from-amber-500/10 to-orange-500/10',
-      link: '/#pricing',
-      external: false,
-    },
+    // {
+    //   icon: TrendingUp,
+    //   title: 'Pricing',
+    //   description: 'Flexible pricing plans designed for businesses of all sizes. From startups to enterprises, find the perfect plan that fits your budget and requirements.',
+    //   gradient: 'from-amber-500 to-orange-500',
+    //   bgGradient: 'from-amber-500/10 to-orange-500/10',
+    //   link: '/#pricing',
+    //   external: false,
+    // },
   ];
 
   // Empty submenu products array
