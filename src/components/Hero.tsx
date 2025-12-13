@@ -3,11 +3,84 @@
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
+// Declare the spline-viewer element type
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'spline-viewer': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement> & { url?: string },
+        HTMLElement
+      >;
+    }
+  }
+}
+
 const Hero = () => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
+    
+    // Dynamically load the Spline viewer script
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = 'https://unpkg.com/@splinetool/viewer@1.12.16/build/spline-viewer.js';
+    script.async = true;
+    document.head.appendChild(script);
+    
+    // Add a slight delay to ensure the viewer is loaded before trying to hide branding
+    const timer = setTimeout(() => {
+      // Try to hide the "Built with Spline" branding with multiple approaches
+      const style = document.createElement('style');
+      style.innerHTML = `
+        /* Hide Spline branding elements */
+        .spline-branding, 
+        .spline-watermark, 
+        .spline-logo,
+        [data-powered-by],
+        svg[fill="none"][viewBox="0 0 89 13"] {
+          display: none !important;
+          visibility: hidden !important;
+          opacity: 0 !important;
+          height: 0 !important;
+          width: 0 !important;
+          position: absolute !important;
+          left: -9999px !important;
+        }
+        
+        /* Hide any SVG that might contain the branding */
+        .spline-container svg,
+        spline-viewer ~ svg,
+        spline-viewer + svg {
+          display: none !important;
+        }
+        
+        /* Hide any div that might contain branding */
+        .spline-branding-container,
+        .powered-by-spline {
+          display: none !important;
+        }
+      `;
+      document.head.appendChild(style);
+      
+      // Also try to remove the element directly after a delay
+      setTimeout(() => {
+        const brandingElements = document.querySelectorAll(
+          '.spline-branding, .spline-watermark, .spline-logo, [data-powered-by], svg[fill="none"][viewBox="0 0 89 13"]'
+        );
+        brandingElements.forEach(el => {
+          if (el) {
+            el.remove();
+          }
+        });
+      }, 1000);
+    }, 500);
+    
+    return () => {
+      // Clean up the script when component unmounts
+      document.head.removeChild(script);
+      clearTimeout(timer);
+    };
   }, []);
 
   // Don't render interactive elements until we're on the client to prevent hydration mismatches
@@ -100,9 +173,90 @@ const Hero = () => {
           </span>
         </h1>
 
-        <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-400 mb-12 max-w-3xl mx-auto animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
+        <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-400 mb-6 max-w-3xl mx-auto animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
           At Kynex.dev, we harness artificial intelligence to power next-generation digital experiences. From smart automation to adaptive systems, we're redefining what software can do.
         </p>
+
+        {/* Spline Viewer Integration */}
+        <div className="my-8 flex justify-center">
+          <div className="w-full max-w-6xl rounded-2xl overflow-hidden shadow-2xl">
+            <div 
+              className="spline-container"
+              style={{ 
+                width: '100%', 
+                height: '650px',
+                borderRadius: '1rem'
+              }}
+            >
+              <spline-viewer 
+                url="https://prod.spline.design/GEB2A5FnkuFENybH/scene.splinecode"
+                style={{ 
+                  width: '100%', 
+                  height: '100%',
+                  borderRadius: '1rem'
+                }}
+              ></spline-viewer>
+            </div>
+          </div>
+        </div>
+
+        <style jsx>{`
+          @media (max-width: 768px) {
+            .spline-container {
+              height: 550px !important;
+            }
+          }
+          
+          @media (max-width: 480px) {
+            .spline-container {
+              height: 450px !important;
+            }
+          }
+          
+          /* Extra small devices (phones, less than 375px) */
+          @media (max-width: 375px) {
+            .spline-container {
+              height: 400px !important;
+            }
+          }
+          
+          /* Small devices (landscape phones, 576px and up) */
+          @media (min-width: 576px) and (max-width: 768px) {
+            .spline-container {
+              height: 580px !important;
+            }
+          }
+          
+          /* Medium devices (tablets, 768px and up) */
+          @media (min-width: 768px) and (max-width: 1024px) {
+            .spline-container {
+              height: 620px !important;
+            }
+          }
+          
+          /* Large phones (480px - 576px) */
+          @media (min-width: 480px) and (max-width: 576px) {
+            .spline-container {
+              height: 520px !important;
+            }
+          }
+          
+          /* Hide Spline branding elements including the SVG logo */
+          .spline-container :global(.spline-branding),
+          .spline-container :global(.spline-watermark),
+          .spline-container :global(.spline-logo),
+          .spline-container :global([data-powered-by]),
+          .spline-container :global(svg[fill="none"][viewBox="0 0 89 13"]) {
+            display: none !important;
+          }
+          
+          /* Additional targeting for any SVG elements within the spline viewer */
+          .spline-container :global(iframe) ~ svg,
+          .spline-container :global(iframe) + svg,
+          .spline-container :global(div > svg:last-child) {
+            display: none !important;
+          }
+        `}</style>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fadeInUp" style={{ animationDelay: '0.4s' }}>
           <a 
