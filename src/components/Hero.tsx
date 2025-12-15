@@ -177,7 +177,7 @@ const Hero = () => {
           At Kynex.dev, we harness artificial intelligence to power next-generation digital experiences. From smart automation to adaptive systems, we're redefining what software can do.
         </p>
 
-        {/* Spline Viewer Integration with overlay rectangle */}
+        {/* Spline Viewer Integration */}
         <div className="my-8 flex justify-center relative">
           <div className="w-full max-w-6xl rounded-2xl overflow-hidden shadow-2xl">
             <div 
@@ -190,6 +190,8 @@ const Hero = () => {
             >
               <spline-viewer 
                 url="https://prod.spline.design/GEB2A5FnkuFENybH/scene.splinecode"
+                hide-branding="true"
+                hide-ui="true"
                 style={{ 
                   width: '100%', 
                   height: '100%',
@@ -198,27 +200,6 @@ const Hero = () => {
               ></spline-viewer>
             </div>
             
-            {/* Overlay rectangles - one for mobile, one for desktop */}
-            {/* Mobile rectangle - visible only on small screens */}
-            <div 
-              className="absolute bottom-5 right-2 md:hidden rounded z-10 opacity-100"
-              style={{ 
-                width: '4cm', 
-                height: '1cm',
-                background: 'linear-gradient(135deg, #0d0d0d, #4d4d4d, #0d0d0d)',
-                boxShadow: '0 4px 8px rgba(0,0,0,0.6), inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.5)',
-                border: '1px solid rgba(255,255,255,0.1)'
-              }}
-            ></div>
-            
-            {/* Desktop rectangle - visible only on medium screens and above */}
-            <div 
-              className="absolute bottom-5 right-20 hidden md:block bg-black rounded z-10 opacity-100"
-              style={{ 
-                width: '4cm', 
-                height: '1cm',
-              }}
-            ></div>
           </div>
         </div>
 
