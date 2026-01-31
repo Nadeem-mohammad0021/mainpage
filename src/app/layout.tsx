@@ -108,9 +108,12 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/site.webmanifest" />
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8057450154530877"
-     crossorigin="anonymous"></script>
-        
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8057450154530877"
+          crossOrigin="anonymous">
+        </script>
+
       </head>
       <body className={cn('min-h-screen font-body antialiased bg-gray-50 dark:bg-gray-950 relative')}>
         {/* Animated background elements */}
